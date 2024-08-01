@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    color: #FFF;
+    font-family: Roboto;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    align-items: flex-start;
+    height: 100vh;
+
+    background: #cad1dc;
+}
+
+h1 {
+    color: #4cc3c1;
+}

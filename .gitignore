@@ -1,0 +1,10 @@
+# Python
+.venv/
+__pycache__/
+
+# LED Matrix
+rpi-rgb-led-matrix/
+
+# Other
+token.json
+credentials.json
