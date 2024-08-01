@@ -1,9 +1,9 @@
 # Python
-.venv/
-__pycache__/
+.venv
+__pycache__
 
 # LED Matrix
-rpi-rgb-led-matrix/
+rpi-rgb-led-matrix
 
 # Other
 token.json
