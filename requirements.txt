@@ -25,7 +25,7 @@ pyasn1_modules==0.4.0
 pyparsing==3.1.2
 requests==2.32.3
 requests-oauthlib==2.0.0
-rgbmatrix==0.0.1
+# rgbmatrix==0.0.1
 rsa==4.9
 soupsieve==2.5
 uritemplate==4.1.1
