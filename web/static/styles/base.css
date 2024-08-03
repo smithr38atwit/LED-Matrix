@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    color: #FFF;
+    /* color: #FFF; */
     font-family: Roboto;
 }
 
@@ -11,12 +11,9 @@ html, body {
 
 body {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     height: 100vh;
 
-    background: #cad1dc;
-}
-
-h1 {
-    color: #4cc3c1;
+    /* background: #cad1dc; */
 }
