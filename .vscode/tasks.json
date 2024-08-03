@@ -1,0 +1,30 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "sync",
+            "type": "shell",
+            "command": "rsync",
+            "args": [
+                "-ravz",
+                "--progress",
+                "--filter=':- .gitignore'",
+                "--exclude='.git/objects'",
+                ".",
+                "ryan.smith@raspberrypi:/home/ryan.smith/led-matrix"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "clear": false
+            }
+        }
+    ]
+}
