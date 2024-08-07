@@ -25,6 +25,31 @@
                 "panel": "shared",
                 "clear": false
             }
+        },
+        {
+            "label": "deploy",
+            "type": "shell",
+            "command": "rsync",
+            "args": [
+                "-ravz",
+                "--progress",
+                "--filter=':- .gitignore'",
+                "--exclude='.git/objects'",
+                ".",
+                "ryan.smith@raspberrypi:/home/ryan.smith/led-matrix-prod"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "clear": false
+            }
         }
     ]
 }
