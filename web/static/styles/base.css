@@ -17,3 +17,8 @@ body {
 
     /* background: #cad1dc; */
 }
+
+.selection-group {
+    display: flex;
+    gap: 5px;
+}

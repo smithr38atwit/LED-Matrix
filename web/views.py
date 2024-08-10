@@ -12,7 +12,8 @@ CURRENT_PROCESS: Popen = None
 @views.route("/")
 def home():
     scripts = [f for f in os.listdir(DISPLAYS_DIR) if f.endswith(".py")]
-    return render_template("base.html", scripts=scripts)
+    selected_script = CURRENT_PROCESS.args[1] if CURRENT_PROCESS else None
+    return render_template("base.html", scripts=scripts, selected_script=selected_script)
 
 
 @views.route("/run", methods=["POST"])

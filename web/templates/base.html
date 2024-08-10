@@ -10,17 +10,25 @@
 
 <body>
     <h1>Choose a Display Mode</h1>
-    <form action="{{ url_for('views.run_script') }}" method="post">
-        <select name="script">
-            {% for script in scripts %}
-            <option value="{{ script }}">{{ script }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Run</button>
-    </form>
-    <form action="{{ url_for('views.stop_script') }}" method="post">
-        <button type="submit">Stop</button>
-    </form>
+    <div class="selection-group">
+        <form action="{{ url_for('views.run_script') }}" method="post">
+            <select name="script">
+                {% if not selected_script %}
+                <option value="" selected disabled hidden>Choose display script</option>
+                {% endif %}
+                {% for script in scripts %}
+                <option value="{{ script }}" {% if selected_script and selected_script.endswith(script) %} selected {%
+                    endif %}>
+                    {{ script }}
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Run</button>
+        </form>
+        <form action="{{ url_for('views.stop_script') }}" method="post">
+            <button type="submit">Stop</button>
+        </form>
+    </div>
 </body>
 
 </html>
