@@ -1,3 +1,4 @@
+import threading
 import time
 from datetime import datetime
 
@@ -56,7 +57,7 @@ options.hardware_mapping = "adafruit-hat"
 MATRIX = RGBMatrix(options=options)
 
 # Setup the Open-Meteo API client with cache and retry on error
-cache_session = requests_cache.CachedSession(".cache", expire_after=60)
+cache_session = requests_cache.CachedSession(".cache", expire_after=50)
 retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
 OPENMETEO = openmeteo_requests.Client(session=retry_session)
 URL = "https://api.open-meteo.com/v1/forecast"
@@ -72,7 +73,7 @@ PARAMS = {
 
 
 # Thread variables
-STOP = False
+STOP = threading.Event()
 TIME = None
 TEMP = None
 IS_DAY = None
@@ -124,8 +125,11 @@ def display_weather(day_icons, night_icons):
     text_color = graphics.Color(*WHITE)
     pos = canvas.width - 1
 
-    while not STOP:
+    while not STOP.is_set():
         canvas.Clear()
+
+        if not TEMP or not IS_DAY or not WEATHER_CODE:
+            continue
 
         # Weather
         weather = WEATHER_CODE_MAP[WEATHER_CODE]
@@ -147,28 +151,36 @@ def display_weather(day_icons, night_icons):
 def main():
     global TIME, TEMP, IS_DAY, WEATHER_CODE, STOP
 
-    responses = OPENMETEO.weather_api(URL, params=PARAMS)
-    response = responses[0]
-    current = response.Current()
-
-    TIME = datetime.fromtimestamp(current.Time())  # .strftime("%I:%M %p")
-    TEMP = round(current.Variables(0).Value())
-    IS_DAY = int(current.Variables(1).Value())
-    WEATHER_CODE = int(current.Variables(2).Value())
-
-    print(f"Current time {TIME}")
-    print(f"Current temperature_2m {TEMP}")
-    print(f"Current is_day {IS_DAY}")
-    print(f"Current weather_code {WEATHER_CODE}")
-
     day_icons, night_icons = load_icons()
+
+    # Start display_weather in a separate thread
+    display_thread = threading.Thread(target=display_weather, args=(day_icons, night_icons))
+    display_thread.start()
+
     try:
-        display_weather(day_icons, night_icons)
-        while not STOP:
-            time.sleep(1)
+        # Update weather every minute
+        while not STOP.is_set():
+            responses = OPENMETEO.weather_api(URL, params=PARAMS)
+            response = responses[0]
+            current = response.Current()
+
+            TIME = datetime.fromtimestamp(current.Time()).strftime("%H:%M")
+            TEMP = round(current.Variables(0).Value())
+            IS_DAY = int(current.Variables(1).Value())
+            WEATHER_CODE = int(current.Variables(2).Value())
+
+            print(f"Current time {TIME}")
+            print(f"Current temperature_2m {TEMP}")
+            print(f"Current is_day {IS_DAY}")
+            print(f"Current weather_code {WEATHER_CODE}")
+
+            time.sleep(60)
     except KeyboardInterrupt:
-        STOP = True
-        MATRIX.Clear()
+        STOP.set()
+
+    # Wait for the display thread to finish
+    display_thread.join()
+    MATRIX.Clear()
 
 
 if __name__ == "__main__":
