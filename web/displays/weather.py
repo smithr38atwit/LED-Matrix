@@ -53,7 +53,6 @@ options.rows = 32
 options.cols = 64
 options.gpio_slowdown = 2
 options.hardware_mapping = "adafruit-hat"
-
 MATRIX = RGBMatrix(options=options)
 
 # Setup the Open-Meteo API client with cache and retry on error
@@ -129,6 +128,7 @@ def display_weather(day_icons, night_icons):
         canvas.Clear()
 
         if not TEMP or not IS_DAY or not WEATHER_CODE:
+            time.sleep(0.04)
             continue
 
         # Weather
@@ -143,7 +143,7 @@ def display_weather(day_icons, night_icons):
         temp_str = f"{TEMP}°F"
         graphics.DrawText(canvas, font, 25, 14, text_color, temp_str)
 
-        # time.sleep(0.04)
+        time.sleep(0.04)
         canvas = MATRIX.SwapOnVSync(canvas)
     MATRIX.Clear()
 
