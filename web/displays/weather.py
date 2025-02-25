@@ -127,7 +127,7 @@ def display_weather(day_icons, night_icons):
     while not STOP.is_set():
         canvas.Clear()
 
-        if not TEMP or not IS_DAY or not WEATHER_CODE:
+        if TEMP is None or IS_DAY is None or WEATHER_CODE is None:
             time.sleep(0.04)
             continue
 
