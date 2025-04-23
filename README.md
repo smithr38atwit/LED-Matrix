@@ -1,5 +1,7 @@
 # LED Matrix Controller
 
+![demo image](https://github.com/smithr38atwit/smithr38atwit.github.io/blob/main/public/project_images/led_matrix.png)
+
 This repository contains the codebase for controlling a **64x32 RGB LED matrix**. The project includes Python scripts for running various displays on the LED matrix and a web application for managing which display is shown. 
 
 > **Note:** This project is a **work in progress**
