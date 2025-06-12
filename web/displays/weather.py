@@ -57,7 +57,7 @@ MATRIX = RGBMatrix(options=options)
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession(".cache", expire_after=50)
-retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
+retry_session = retry(cache_session, retries=5, backoff_factor=2)
 OPENMETEO = openmeteo_requests.Client(session=retry_session)
 URL = "https://api.open-meteo.com/v1/forecast"
 PARAMS = {
@@ -160,7 +160,12 @@ def main():
     try:
         # Update weather every minute
         while not STOP.is_set():
-            responses = OPENMETEO.weather_api(URL, params=PARAMS)
+            try:
+                responses = OPENMETEO.weather_api(URL, params=PARAMS)
+            except Exception as e:
+                time.sleep(60)
+                continue
+
             response = responses[0]
             current = response.Current()
 
@@ -174,7 +179,7 @@ def main():
             print(f"Current is_day {IS_DAY}")
             print(f"Current weather_code {WEATHER_CODE}")
 
-            time.sleep(60)
+            time.sleep(30)
     except KeyboardInterrupt:
         STOP.set()
 
