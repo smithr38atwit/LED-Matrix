@@ -2,7 +2,7 @@
 
 ![demo image](https://github.com/smithr38atwit/smithr38atwit.github.io/blob/main/public/project_images/led_matrix.png)
 
-This repository contains the codebase for controlling a **64x32 RGB LED matrix**. The project includes Python scripts for running various displays on the LED matrix and a web application for managing which display is shown. 
+This repository contains the codebase for controlling a **64x32 RGB LED matrix**. The project includes Python scripts for running various displays on the LED matrix and a web application for managing which display is shown.
 
 > **Note:** This project is a **work in progress**
 
@@ -61,12 +61,14 @@ This project leverages the following technologies:
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/smithr38atwit/LED-Matrix.git
    cd LED-Matrix
    ```
 
 2. Set up the Python environment:
+
    ```bash
    python3 -m venv env
    source env/bin/activate
@@ -88,6 +90,7 @@ This project leverages the following technologies:
 **OR**
 
 1. Start the web controller (if using the current Flask app):
+
    ```bash
    python main.py
    ```
@@ -99,11 +102,13 @@ This project leverages the following technologies:
 ## Roadmap
 
 ### Current Features:
+
 - Python display scripts for animations and content rendering.
   - Meeting sign
   - Weather display
 - Flask-based web application for controlling the matrix.
 
 ### Upcoming Features:
+
 - Migration of the web application to **React**.
 - Expanded library of display animations and effects.
