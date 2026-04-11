@@ -1,0 +1,151 @@
+schema_version: 1
+generated_for_step: 1
+generated_purpose: migration-surface-audit
+
+displays:
+  - name: weather
+    file: web/displays/weather.py
+    status: active
+    mvp_role: keep
+    currently_used: true
+    dependencies:
+      python:
+        - openmeteo_requests
+        - requests_cache
+        - retry_requests
+        - pillow
+        - rgbmatrix
+      assets:
+        - icons/weather-icons.bmp
+      external:
+        - Open-Meteo API
+        - rpi-rgb-led-matrix/fonts/9x15.bdf
+    notes:
+      - Hardcoded latitude and longitude should move to centralized configuration.
+      - Matrix options and asset paths are embedded in the script.
+
+  - name: text_scroll
+    file: web/displays/text_scroll.py
+    status: active
+    mvp_role: keep
+    currently_used: true
+    dependencies:
+      python:
+        - rgbmatrix
+      assets: []
+      external:
+        - rpi-rgb-led-matrix/fonts/7x13.bdf
+    notes:
+      - Strong MVP candidate once font path and matrix config are externalized.
+      - CLI interface is useful reference for future parameterized display configuration.
+
+  - name: meetings
+    file: web/displays/meetings.py
+    status: inactive
+    mvp_role: keep-with-caveats
+    currently_used: false
+    dependencies:
+      python:
+        - google-auth
+        - google-auth-oauthlib
+        - google-api-python-client
+        - rgbmatrix
+      assets: []
+      external:
+        - credentials.json
+        - token.json
+        - Google Calendar API
+        - rpi-rgb-led-matrix/fonts/7x13.bdf
+    notes:
+      - Preserve as a migration candidate, but not as a parity target for the first implementation pass.
+      - Interactive manual override loop must be removed or redesigned for managed runtime use.
+
+  - name: sports_display
+    file: web/displays/sports_display.py
+    status: experimental
+    mvp_role: defer
+    currently_used: false
+    dependencies:
+      python:
+        - requests
+        - pillow
+        - rgbmatrix
+      assets:
+        - icons/sport_logos_24x24
+      external:
+        - ESPN scoreboard API
+    notes:
+      - Hardcoded team filter and incomplete display behavior make this unsuitable for MVP.
+      - Keep only as future reference unless requirements change.
+
+  - name: news
+    file: web/displays/news.py
+    status: broken
+    mvp_role: exclude
+    currently_used: false
+    dependencies:
+      python:
+        - requests
+        - beautifulsoup4
+      assets: []
+      external:
+        - Boston.com local news page
+    notes:
+      - Incomplete implementation with missing imports and no matrix rendering path.
+
+  - name: test
+    file: web/displays/test.py
+    status: test-only
+    mvp_role: exclude
+    currently_used: false
+    dependencies:
+      python: []
+      assets: []
+      external: []
+    notes:
+      - Console-only process loop, useful for manual smoke testing but not part of the product surface.
+
+  - name: sports_display_test
+    file: web/displays/sports_display_test.py
+    status: test-only
+    mvp_role: exclude
+    currently_used: false
+    dependencies:
+      python:
+        - pillow
+        - rgbmatrix
+      assets:
+        - icons/sport_logos_24x24
+      external: []
+    notes:
+      - Developer test harness, not part of the MVP runtime.
+
+operational_surface:
+  entrypoint:
+    file: main.py
+    status: migration-reference
+  flask_controller:
+    file: web/views.py
+    status: critical-migration-reference
+    notes:
+      - Discovers every top-level Python file in web/displays.
+      - Uses one in-memory current process and Popen-based lifecycle management.
+  app_factory:
+    file: web/__init__.py
+    status: migration-reference
+  dependencies_manifest:
+    file: requirements.txt
+    status: active-transitional
+  deployment_tasks:
+    file: .vscode/tasks.json
+    status: active
+  raspberry_pi_bootstrap:
+    file: rgb-matrix.sh
+    status: active-reference
+
+step_1_decisions:
+  do_not_move_files_out_of_web_displays_yet: true
+  current_flask_ui_remains_unfiltered: true
+  active_in_real_use:
+    - weather
+    - text_scroll

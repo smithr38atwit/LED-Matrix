@@ -6,6 +6,8 @@ This repository contains the codebase for controlling a **64x32 RGB LED matrix**
 
 > **Note:** This project is a **work in progress**
 
+The current migration audit for the repository surface lives in [docs/migration-surface-audit.md](docs/migration-surface-audit.md). Use that file as the source of truth for which displays are active, deferred, broken, or test-only.
+
 ---
 
 ## Table of Contents
@@ -23,9 +25,18 @@ This repository contains the codebase for controlling a **64x32 RGB LED matrix**
 ## Features
 
 - **Dynamic Displays**: Python scripts to render various animations and custom content on the LED matrix.
-  - Meeting sign: Syncs with google calendar and displays when your next scheduled meeting is and current meeting status
-  - Weath display: Simple display which shows current temperature and weather conditions
+  - Weather display: active display for current temperature and conditions
+  - Text scroll display: active utility for scrolling custom messages
+  - Meeting sign: retained as a migration candidate, but not currently in regular use
 - **Web-based Control**: A web application to easily switch between different display modes.
+
+Current display surface status:
+
+- MVP migration candidates: weather, text scroll, meetings
+- Deferred or experimental: sports display
+- Broken or test-only: news, test, sports display test
+
+The current Flask UI still lists every top-level Python file in `web/displays`. That is a known temporary limitation and not the intended long-term display registry behavior.
 
 ---
 
@@ -41,7 +52,7 @@ This project leverages the following technologies:
 - **Frameworks and Libraries**:
   - Flask (for the current web application)
   - React (planned for future migration of the web app)
-  - [RGB Matrix library](https://github.com/hzeller/rpi-rgb-led-matrix) (for controlling LED matrix with Raspbeery PI)
+  - [RGB Matrix library](https://github.com/hzeller/rpi-rgb-led-matrix) (for controlling LED matrix with Raspberry PI)
 - **Hardware**
   - Raspberry Pi 3B
   - [64x32 RGB LED Matrix](https://www.adafruit.com/product/2278)
@@ -84,7 +95,7 @@ This project leverages the following technologies:
 
 1. Run the Python display scripts directly:
    ```bash
-   python scripts/display_example.py
+   python web/displays/weather.py
    ```
 
 **OR**
@@ -104,11 +115,13 @@ This project leverages the following technologies:
 ### Current Features:
 
 - Python display scripts for animations and content rendering.
-  - Meeting sign
   - Weather display
+  - Text scroll display
+  - Meeting sign as a retained migration candidate
 - Flask-based web application for controlling the matrix.
 
 ### Upcoming Features:
 
 - Migration of the web application to **React**.
+- Replacement of the current Flask process launcher with a managed backend runtime.
 - Expanded library of display animations and effects.
