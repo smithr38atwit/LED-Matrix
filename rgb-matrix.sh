@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # INSTALLER SCRIPT FOR ADAFRUIT RGB MATRIX BONNET OR HAT
+# This installs system-level and native Python pieces for the matrix driver.
+# The repo's uv-managed environment should be created with --system-site-packages
+# on the Raspberry Pi so it can import the rgbmatrix module installed here.
 
 # hzeller/rpi-rgb-led-matrix sees lots of active development!
 # That's cool and all, BUT, to avoid tutorial breakage,

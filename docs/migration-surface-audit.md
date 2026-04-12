@@ -53,7 +53,8 @@ The current Flask UI still exposes every top-level Python file in `web/displays`
 | [main.py](../main.py)                       | Migration reference                     | Captures current app entrypoint and debug-server assumptions.                                       |
 | [web/**init**.py](../web/__init__.py)       | Migration reference                     | Shows the current Flask app factory and placeholder config usage.                                   |
 | [web/views.py](../web/views.py)             | Critical migration reference            | Defines the current display discovery and subprocess lifecycle model that later steps must replace. |
-| [requirements.txt](../requirements.txt)     | Active but transitional                 | Current Python dependency list. Will be replaced in step 2.                                         |
+| [pyproject.toml](../pyproject.toml)         | Active dependency source                | Current Python dependency definition for the uv-based workflow introduced in step 2.                |
+| [uv.lock](../uv.lock)                       | Active lockfile                         | Pinned dependency resolution for reproducible local and Raspberry Pi syncs.                         |
 | [.vscode/tasks.json](../.vscode/tasks.json) | Active workflow                         | Shows the current rsync deployment flow and the lingering dev/prod target ambiguity.                |
 | [rgb-matrix.sh](../rgb-matrix.sh)           | Active Raspberry Pi bootstrap reference | Documents hardware-library installation expectations that later setup docs must preserve.           |
 | [README.md](../README.md)                   | Active documentation                    | Must describe the audited MVP surface instead of treating all displays as equivalent.               |

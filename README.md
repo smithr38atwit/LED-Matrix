@@ -64,7 +64,7 @@ This project leverages the following technologies:
 
 ### Prerequisites
 
-- Python 3.7 or higher
+- Python 3.11 or higher
 - Adafruit RGB Matrix hardware and dependencies
 - A Raspberry Pi
 - Node.js and npm (for future React updates)
@@ -81,21 +81,34 @@ This project leverages the following technologies:
 2. Set up the Python environment:
 
    ```bash
-   python3 -m venv env
-   source env/bin/activate
-   pip install -r requirements.txt
+   python3 -m pip install uv
+   uv venv .venv --python 3.11
+   source .venv/bin/activate
+   uv sync
    ```
 
-3. Run installer script for RGB Matrix Bonnet library and follow prompts:
+3. On the Raspberry Pi, run the installer script for the RGB Matrix Bonnet library and follow the prompts:
+
    ```bash
    sudo bash rgb-matrix.sh
    ```
+
+4. On the Raspberry Pi, recreate the environment with access to system site packages so the venv can import the system-installed `rgbmatrix` module:
+
+```bash
+rm -rf .venv
+uv venv .venv --python 3.11 --system-site-packages
+source .venv/bin/activate
+uv sync
+```
+
+The uv-managed environment is the source of truth for pure Python dependencies. The `rgbmatrix` module and related native/system packages are still installed separately by `rgb-matrix.sh`.
 
 ### Usage
 
 1. Run the Python display scripts directly:
    ```bash
-   python web/displays/weather.py
+   uv run python web/displays/weather.py
    ```
 
 **OR**
@@ -103,7 +116,7 @@ This project leverages the following technologies:
 1. Start the web controller (if using the current Flask app):
 
    ```bash
-   python main.py
+   uv run python main.py
    ```
 
 2. Access the web app in your browser at `http://localhost:5000` and choose a display.

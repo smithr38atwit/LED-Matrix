@@ -134,8 +134,11 @@ operational_surface:
     file: web/__init__.py
     status: migration-reference
   dependencies_manifest:
-    file: requirements.txt
-    status: active-transitional
+    file: pyproject.toml
+    status: active
+    notes:
+      - uv.lock now carries the pinned dependency resolution for the repo.
+      - Raspberry Pi hardware bindings still come from rgb-matrix.sh, not uv.
   deployment_tasks:
     file: .vscode/tasks.json
     status: active
