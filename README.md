@@ -113,13 +113,13 @@ The uv-managed environment is the source of truth for pure Python dependencies. 
 
 **OR**
 
-1. Start the web controller (if using the current Flask app):
+1. Start the backend controller (FastAPI):
 
    ```bash
    uv run python main.py
    ```
 
-2. Access the web app in your browser at `http://localhost:5000` and choose a display.
+2. Access backend docs in your browser at `http://localhost:5000/docs` and run display control requests.
 
 ---
 
@@ -131,7 +131,7 @@ The uv-managed environment is the source of truth for pure Python dependencies. 
   - Weather display
   - Text scroll display
   - Meeting sign as a retained migration candidate
-- Flask-based web application for controlling the matrix.
+- FastAPI backend control plane with docs-driven API workflow.
 
 ### Upcoming Features:
 
