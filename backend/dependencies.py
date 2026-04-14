@@ -1,5 +1,7 @@
 from fastapi import Request
 
+from backend.manager import DisplayManager
+from backend.registry import DisplayRegistry
 from backend.state import AppState
 
 
@@ -9,3 +11,17 @@ def get_runtime_state(request: Request) -> AppState:
         runtime = AppState()
         request.app.state.runtime = runtime
     return runtime
+
+
+def get_registry(request: Request) -> DisplayRegistry:
+    runtime = get_runtime_state(request)
+    if runtime.registry is None:
+        raise RuntimeError("Display registry not initialized")
+    return runtime.registry
+
+
+def get_display_manager(request: Request) -> DisplayManager:
+    runtime = get_runtime_state(request)
+    if runtime.manager is None:
+        raise RuntimeError("Display manager not initialized")
+    return runtime.manager

@@ -1,15 +1,27 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 
 from backend.api import router as api_router
+from backend.manager import DisplayManager
+from backend.persistence import RuntimeStateStore
+from backend.registry import DisplayRegistry
 from backend.state import AppState
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    app.state.runtime = AppState()
-    yield
+    project_root = Path(__file__).resolve().parent.parent
+    registry = DisplayRegistry(project_root=project_root)
+    state_store = RuntimeStateStore(project_root / "runtime" / "state.json")
+    manager = DisplayManager(registry=registry, state_store=state_store, project_root=project_root)
+
+    app.state.runtime = AppState(registry=registry, manager=manager)
+    try:
+        yield
+    finally:
+        manager.shutdown()
 
 
 def create_app() -> FastAPI:
