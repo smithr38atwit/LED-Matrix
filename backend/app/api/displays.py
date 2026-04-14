@@ -1,16 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from backend.dependencies import get_display_manager, get_registry
-from backend.errors import DisplayNotControllableError, DisplayNotFoundError
-from backend.manager import DisplayManager
-from backend.models import (
+from backend.app.dependencies import get_display_manager, get_registry
+from backend.app.models.api import (
     DisplayControlAction,
     DisplayControlRequest,
     DisplayControlResponse,
     DisplayListResponse,
     ErrorResponse,
 )
-from backend.registry import DisplayRegistry
+from backend.app.services.errors import (
+    DisplayNotControllableError,
+    DisplayNotFoundError,
+)
+from backend.app.services.manager import DisplayManager
+from backend.app.services.registry import DisplayRegistry
 
 router = APIRouter()
 

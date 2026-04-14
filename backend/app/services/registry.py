@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from backend.errors import DisplayNotFoundError
-from backend.models import DisplayInfo, DisplayStability
+from backend.app.models.api import DisplayInfo, DisplayStability
+from backend.app.services.errors import DisplayNotFoundError
 
 
 class DisplayRegistry:
@@ -28,7 +28,7 @@ class DisplayRegistry:
             DisplayInfo(
                 id="text_scroll",
                 name="Text Scroll",
-                module_path="web/displays/text_scroll.py",
+                module_path="displays/active/text_scroll.py",
                 stability=DisplayStability.stable,
                 supports_control=True,
                 notes="CLI args supported for text/color/speed",
@@ -36,7 +36,7 @@ class DisplayRegistry:
             DisplayInfo(
                 id="weather",
                 name="Weather",
-                module_path="web/displays/weather.py",
+                module_path="displays/active/weather.py",
                 stability=DisplayStability.stable,
                 supports_control=True,
                 notes="Uses Open-Meteo and icon assets",
@@ -44,7 +44,7 @@ class DisplayRegistry:
             DisplayInfo(
                 id="sports_display",
                 name="Sports Display",
-                module_path="web/displays/sports_display.py",
+                module_path="displays/active/sports_display.py",
                 stability=DisplayStability.experimental,
                 supports_control=True,
                 notes="Kept for migration parity, known behavior gaps",
@@ -52,7 +52,7 @@ class DisplayRegistry:
             DisplayInfo(
                 id="meetings",
                 name="Meetings",
-                module_path="web/displays/meetings.py",
+                module_path="displays/active/meetings.py",
                 stability=DisplayStability.experimental,
                 supports_control=True,
                 notes="Requires Google credentials and daemonization refinements",
@@ -60,7 +60,7 @@ class DisplayRegistry:
             DisplayInfo(
                 id="news",
                 name="News",
-                module_path="web/displays/news.py",
+                module_path="displays/active/news.py",
                 stability=DisplayStability.broken,
                 supports_control=False,
                 notes="Retained for now; currently incomplete",
@@ -68,7 +68,7 @@ class DisplayRegistry:
             DisplayInfo(
                 id="sports_display_test",
                 name="Sports Display Test",
-                module_path="web/displays/sports_display_test.py",
+                module_path="displays/experimental/sports_display_test.py",
                 stability=DisplayStability.test_only,
                 supports_control=False,
                 notes="Retained non-production test script",
@@ -76,7 +76,7 @@ class DisplayRegistry:
             DisplayInfo(
                 id="test",
                 name="Test",
-                module_path="web/displays/test.py",
+                module_path="displays/experimental/test.py",
                 stability=DisplayStability.test_only,
                 supports_control=False,
                 notes="Retained non-production test script",

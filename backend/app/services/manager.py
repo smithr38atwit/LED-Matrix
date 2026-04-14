@@ -4,9 +4,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from backend.errors import DisplayNotControllableError
-from backend.persistence import PersistedRuntimeState, RuntimeStateStore
-from backend.registry import DisplayRegistry
+from backend.app.services.errors import DisplayNotControllableError
+from backend.app.services.persistence import PersistedRuntimeState, RuntimeStateStore
+from backend.app.services.registry import DisplayRegistry
 
 
 @dataclass

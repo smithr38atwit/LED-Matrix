@@ -2,10 +2,10 @@ from datetime import UTC, datetime
 
 from fastapi import APIRouter, Depends
 
-from backend.dependencies import get_display_manager, get_runtime_state
-from backend.manager import DisplayManager
-from backend.models import HealthResponse
-from backend.state import AppState
+from backend.app.dependencies import get_display_manager, get_runtime_state
+from backend.app.models.api import HealthResponse
+from backend.app.services.manager import DisplayManager
+from backend.app.services.state import AppState
 
 router = APIRouter()
 

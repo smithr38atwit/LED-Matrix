@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 
-from backend.manager import DisplayManager
-from backend.registry import DisplayRegistry
+from backend.app.services.manager import DisplayManager
+from backend.app.services.registry import DisplayRegistry
 
 
 @dataclass

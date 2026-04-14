@@ -1,8 +1,8 @@
 from fastapi import Request
 
-from backend.manager import DisplayManager
-from backend.registry import DisplayRegistry
-from backend.state import AppState
+from backend.app.services.manager import DisplayManager
+from backend.app.services.registry import DisplayRegistry
+from backend.app.services.state import AppState
 
 
 def get_runtime_state(request: Request) -> AppState:
