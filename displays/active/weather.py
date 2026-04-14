@@ -83,7 +83,7 @@ def load_icons():
     tile_height = 16
     tile_width = 16
 
-    img = Image.open("icons/weather-icons.bmp")
+    img = Image.open("displays/assets/weather/weather-icons.bmp")
     img_width, img_height = img.size
 
     day_icons = []

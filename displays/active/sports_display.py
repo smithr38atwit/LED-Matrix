@@ -1,7 +1,7 @@
-import requests
-import time
 import sys
+import time
 
+import requests
 from PIL import Image
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
@@ -18,16 +18,18 @@ TEAMS = [
     ("New England Patriots", "NE"),
     ("Boston Red Sox", "BOS"),
     ("Boston Bruins", "BOS"),
-    ]
-SPORT_URLS = [f"https://site.api.espn.com/apis/site/v2/sports/{sport_name[i]}/{sport_league[i]}/scoreboard" 
-              for i in range(len(sport_name))]
+]
+SPORT_URLS = [
+    f"https://site.api.espn.com/apis/site/v2/sports/{sport_name[i]}/{sport_league[i]}/scoreboard"
+    for i in range(len(sport_name))
+]
 
 # Setup LED matrix
 options = RGBMatrixOptions()
 options.rows = 32
 options.cols = 64
 options.gpio_slowdown = 2
-options.hardware_mapping = 'adafruit-hat'
+options.hardware_mapping = "adafruit-hat"
 MATRIX = RGBMatrix(options=options)
 
 
@@ -60,9 +62,9 @@ def get_info(url, team):
 
 
 def display_scores(names, scores, info):
-    file_source = f'sport_logos_24x24/{info["league"]}_logos/'
-    home_logo = Image.open(file_source + f"{names[0]}.bmp").convert('RGB')
-    away_logo = Image.open(file_source + f"{names[1]}.bmp").convert('RGB')
+    file_source = f'displays/assets/sports/logos_24x24/{info["league"]}_logos/'
+    home_logo = Image.open(file_source + f"{names[0]}.bmp").convert("RGB")
+    away_logo = Image.open(file_source + f"{names[1]}.bmp").convert("RGB")
 
     double_buffer = MATRIX.CreateFrameCanvas()
     img_size = 24
@@ -74,11 +76,11 @@ def display_scores(names, scores, info):
             double_buffer.Clear()
             ypos1 += 1
             ypos2 += 1
-            if (ypos1 + img_size > double_buffer.height):
+            if ypos1 + img_size > double_buffer.height:
                 ypos1 = 0
-            if (ypos2 - img_size > double_buffer.height):
+            if ypos2 - img_size > double_buffer.height:
                 ypos2 = 0
-            
+
             double_buffer.SetImage(home_logo, 4, -ypos1)
             double_buffer.SetImage(home_logo, 4, -ypos2 + img_size + 6)
             double_buffer.SetImage(away_logo, 36, -ypos1)
@@ -90,7 +92,7 @@ def display_scores(names, scores, info):
         sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     names, scores, info, playing = get_info(SPORT_URLS[0], TEAMS[0])
     print("Names:\n", names)
     print("Scores:\n", scores)

@@ -12,8 +12,8 @@ options.gpio_slowdown = 2
 options.hardware_mapping = "adafruit-hat"
 MATRIX = RGBMatrix(options=options)
 
-image_file_1 = "sport_logos_24x24/nfl_logos/NE.bmp"
-image_file_2 = "sport_logos_24x24/nfl_logos/KC.bmp"
+image_file_1 = "displays/assets/sports/logos_24x24/nfl_logos/NE.bmp"
+image_file_2 = "displays/assets/sports/logos_24x24/nfl_logos/KC.bmp"
 image_1 = Image.open(image_file_1)
 image_2 = Image.open(image_file_2)
 MATRIX.SetImage(image_1.convert("RGB"), 4, 1)
