@@ -4,7 +4,7 @@ Use this document as the primary context for future planning sessions on the LED
 
 **Project Background**
 
-This repository controls a 64x32 RGB LED matrix connected to a Raspberry Pi 3B. Today it has two loosely connected parts: standalone Python display scripts that run loops directly on the matrix, and a simple Flask web app that can start and stop display scripts but is not the primary operating path.
+This repository controls a 64x32 RGB LED matrix connected to a Raspberry Pi 3B. It now has a FastAPI backend that manages display lifecycle plus standalone Python display scripts that render on the matrix.
 
 The project is currently operated by SSHing into the Raspberry Pi and launching a display in tmux. Code deployment is done with rsync from VS Code tasks. There is a second "prod" rsync target, but the project is expected to converge on a single Raspberry Pi target unless future requirements change.
 
@@ -12,11 +12,12 @@ The goal is to make the project coherent, reliable, and maintainable without tur
 
 **Current Repository Context**
 
-- [main.py](main.py) is the current Flask entrypoint.
-- [web/**init**.py](web/__init__.py) and [web/views.py](web/views.py) contain the current web controller.
-- [web/displays/meetings.py](web/displays/meetings.py), [web/displays/weather.py](web/displays/weather.py), [web/displays/sports_display.py](web/displays/sports_display.py), and [web/displays/text_scroll.py](web/displays/text_scroll.py) are the main display implementations worth treating as migration candidates.
-- [web/displays/news.py](web/displays/news.py) is incomplete and should not be assumed to be MVP-ready.
-- [requirements.txt](requirements.txt) is the current dependency source and should be replaced.
+- [main.py](main.py) is the current FastAPI entrypoint.
+- [backend/app/main.py](backend/app/main.py) contains the backend app factory and lifespan wiring.
+- [backend/app/api/displays.py](backend/app/api/displays.py) and [backend/app/runtime/manager.py](backend/app/runtime/manager.py) are the core display-control surfaces.
+- [displays/active/meetings.py](displays/active/meetings.py), [displays/active/weather.py](displays/active/weather.py), [displays/active/sports_display.py](displays/active/sports_display.py), and [displays/active/text_scroll.py](displays/active/text_scroll.py) are the main display implementations.
+- [displays/active/news.py](displays/active/news.py) is incomplete and should not be assumed to be MVP-ready.
+- [pyproject.toml](pyproject.toml) and [uv.lock](uv.lock) are the dependency sources.
 - [.vscode/tasks.json](.vscode/tasks.json) contains the current rsync workflow.
 - [rgb-matrix.sh](rgb-matrix.sh) is part of the Raspberry Pi hardware/bootstrap story.
 - [README.md](README.md) will need a substantial rewrite once the architecture is updated.
@@ -48,7 +49,7 @@ The roadmap below is intentionally broken into manageable steps that should be s
    Document which display scripts are active, experimental, broken, or test-only. Remove ambiguity about what belongs in the MVP and what should be deferred. Confirm which files and assets are still needed.
 
 2. Modernize Python project structure and dependency management.
-   Replace [requirements.txt](requirements.txt) with a pyproject-based setup and a lockfile. Adopt uv as the default Python workflow. Separate pure Python dependencies from Raspberry Pi specific system and hardware dependencies.
+   Maintain the pyproject + lockfile workflow under uv. Keep pure Python dependencies separated from Raspberry Pi specific system and hardware dependencies.
 
 3. Add centralized configuration and runtime state handling.
    Introduce configuration for matrix settings, resource paths, default behavior, credential paths, and persisted state. Stop hard-coding values like coordinates, font paths, and matrix options inside display scripts.

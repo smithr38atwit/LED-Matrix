@@ -4,7 +4,7 @@ generated_purpose: migration-surface-audit
 
 displays:
   - name: weather
-    file: web/displays/weather.py
+    file: displays/active/weather.py
     status: active
     mvp_role: keep
     currently_used: true
@@ -16,7 +16,7 @@ displays:
         - pillow
         - rgbmatrix
       assets:
-        - icons/weather-icons.bmp
+        - displays/assets/weather/weather-icons.bmp
       external:
         - Open-Meteo API
         - rpi-rgb-led-matrix/fonts/9x15.bdf
@@ -25,7 +25,7 @@ displays:
       - Matrix options and asset paths are embedded in the script.
 
   - name: text_scroll
-    file: web/displays/text_scroll.py
+    file: displays/active/text_scroll.py
     status: active
     mvp_role: keep
     currently_used: true
@@ -40,7 +40,7 @@ displays:
       - CLI interface is useful reference for future parameterized display configuration.
 
   - name: meetings
-    file: web/displays/meetings.py
+    file: displays/active/meetings.py
     status: inactive
     mvp_role: keep-with-caveats
     currently_used: false
@@ -61,7 +61,7 @@ displays:
       - Interactive manual override loop must be removed or redesigned for managed runtime use.
 
   - name: sports_display
-    file: web/displays/sports_display.py
+    file: displays/active/sports_display.py
     status: experimental
     mvp_role: defer
     currently_used: false
@@ -71,7 +71,7 @@ displays:
         - pillow
         - rgbmatrix
       assets:
-        - icons/sport_logos_24x24
+        - displays/assets/sports/logos_24x24
       external:
         - ESPN scoreboard API
     notes:
@@ -79,7 +79,7 @@ displays:
       - Keep only as future reference unless requirements change.
 
   - name: news
-    file: web/displays/news.py
+    file: displays/active/news.py
     status: broken
     mvp_role: exclude
     currently_used: false
@@ -94,7 +94,7 @@ displays:
       - Incomplete implementation with missing imports and no matrix rendering path.
 
   - name: test
-    file: web/displays/test.py
+    file: displays/experimental/test.py
     status: test-only
     mvp_role: exclude
     currently_used: false
@@ -106,7 +106,7 @@ displays:
       - Console-only process loop, useful for manual smoke testing but not part of the product surface.
 
   - name: sports_display_test
-    file: web/displays/sports_display_test.py
+    file: displays/experimental/sports_display_test.py
     status: test-only
     mvp_role: exclude
     currently_used: false
@@ -115,7 +115,7 @@ displays:
         - pillow
         - rgbmatrix
       assets:
-        - icons/sport_logos_24x24
+        - displays/assets/sports/logos_24x24
       external: []
     notes:
       - Developer test harness, not part of the MVP runtime.
@@ -123,16 +123,18 @@ displays:
 operational_surface:
   entrypoint:
     file: main.py
-    status: migration-reference
-  flask_controller:
-    file: web/views.py
-    status: critical-migration-reference
+    status: active
+  backend_app:
+    file: backend/app/main.py
+    status: active
     notes:
-      - Discovers every top-level Python file in web/displays.
-      - Uses one in-memory current process and Popen-based lifecycle management.
-  app_factory:
-    file: web/__init__.py
-    status: migration-reference
+      - FastAPI app factory and lifespan startup/shutdown hooks.
+      - Initializes DisplayRegistry and DisplayManager runtime services.
+  display_registry:
+    file: backend/app/runtime/registry.py
+    status: active
+    notes:
+      - Explicit registry replaces file discovery from legacy Flask paths.
   dependencies_manifest:
     file: pyproject.toml
     status: active
@@ -147,8 +149,8 @@ operational_surface:
     status: active-reference
 
 step_1_decisions:
-  do_not_move_files_out_of_web_displays_yet: true
-  current_flask_ui_remains_unfiltered: true
+  do_not_move_files_out_of_web_displays_yet: false
+  current_flask_ui_remains_unfiltered: false
   active_in_real_use:
     - weather
     - text_scroll

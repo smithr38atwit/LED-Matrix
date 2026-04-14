@@ -28,7 +28,7 @@ The current migration audit for the repository surface lives in [docs/migration-
   - Weather display: active display for current temperature and conditions
   - Text scroll display: active utility for scrolling custom messages
   - Meeting sign: retained as a migration candidate, but not currently in regular use
-- **Web-based Control**: A web application to easily switch between different display modes.
+- **Web-based Control**: FastAPI backend endpoints for switching between display modes.
 
 Current display surface status:
 
@@ -36,7 +36,7 @@ Current display surface status:
 - Deferred or experimental: sports display
 - Broken or test-only: news, test, sports display test
 
-The current Flask UI still lists every top-level Python file in `web/displays`. That is a known temporary limitation and not the intended long-term display registry behavior.
+The backend now uses an explicit display registry instead of file-based display discovery.
 
 ---
 
@@ -50,7 +50,7 @@ This project leverages the following technologies:
   - HTML
   - CSS
 - **Frameworks and Libraries**:
-  - Flask (for the current web application)
+  - FastAPI (backend control plane)
   - React (planned for future migration of the web app)
   - [RGB Matrix library](https://github.com/hzeller/rpi-rgb-led-matrix) (for controlling LED matrix with Raspberry PI)
 - **Hardware**
@@ -108,7 +108,7 @@ The uv-managed environment is the source of truth for pure Python dependencies. 
 
 1. Run the Python display scripts directly:
    ```bash
-   uv run python web/displays/weather.py
+   uv run python displays/active/weather.py
    ```
 
 **OR**
@@ -136,5 +136,5 @@ The uv-managed environment is the source of truth for pure Python dependencies. 
 ### Upcoming Features:
 
 - Migration of the web application to **React**.
-- Replacement of the current Flask process launcher with a managed backend runtime.
+- Additional backend hardening around display adapters and configuration normalization.
 - Expanded library of display animations and effects.
