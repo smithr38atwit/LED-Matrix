@@ -14,7 +14,7 @@ The goal is to make the project coherent, reliable, and maintainable without tur
 
 - [main.py](main.py) is the current FastAPI entrypoint.
 - [backend/app/main.py](backend/app/main.py) contains the backend app factory and lifespan wiring.
-- [backend/app/api/displays.py](backend/app/api/displays.py) and [backend/app/runtime/manager.py](backend/app/runtime/manager.py) are the core display-control surfaces.
+- [backend/app/api/displays.py](backend/app/api/displays.py) and [backend/app/services/manager.py](backend/app/services/manager.py) are the core display-control surfaces.
 - [displays/active/meetings.py](displays/active/meetings.py), [displays/active/weather.py](displays/active/weather.py), [displays/active/sports_display.py](displays/active/sports_display.py), and [displays/active/text_scroll.py](displays/active/text_scroll.py) are the main display implementations.
 - [displays/active/news.py](displays/active/news.py) is incomplete and should not be assumed to be MVP-ready.
 - [pyproject.toml](pyproject.toml) and [uv.lock](uv.lock) are the dependency sources.
