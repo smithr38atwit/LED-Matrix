@@ -13,7 +13,7 @@ This is the single source of truth for the current backend runtime.
 - Dependency wiring: `backend/app/dependencies.py`
 - Services: `backend/app/services`
   - `registry.py`: explicit display catalog and metadata
-  - `manager.py`: start/stop/switch lifecycle, single-active invariant
+  - `manager.py`: start/stop/switch lifecycle, single-active invariant, and startup restore of the last selected controllable display
   - `persistence.py`: runtime state persisted at `runtime/state.json`
   - `errors.py`: display control domain errors
   - `state.py`: app-scoped runtime container
@@ -52,7 +52,7 @@ Current status by display ID:
 Tests focus on intent, not implementation details:
 
 - API intent tests: success/failure contract and control flow behavior
-- Manager intent tests: single-active invariant, idempotent stop, and persisted last-selected intent
+- Manager intent tests: single-active invariant, idempotent stop, and startup restore behavior
 
 Run all tests:
 

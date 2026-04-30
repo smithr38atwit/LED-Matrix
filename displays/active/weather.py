@@ -55,9 +55,8 @@ options.gpio_slowdown = 2
 options.hardware_mapping = "adafruit-hat"
 MATRIX = RGBMatrix(options=options)
 
-# Setup the Open-Meteo API client with cache and retry on error
-cache_session = requests_cache.CachedSession(".cache", expire_after=50)
-retry_session = retry(cache_session, retries=5, backoff_factor=2)
+# Setup the Open-Meteo API client with retry on error
+retry_session = retry(retries=5, backoff_factor=2)
 OPENMETEO = openmeteo_requests.Client(session=retry_session)
 URL = "https://api.open-meteo.com/v1/forecast"
 PARAMS = {

@@ -35,7 +35,7 @@ class DisplayManager:
         self._last_selected_display_id: str | None = None
         self._last_exit_code: int | None = None
 
-        self._load_persisted_state()
+        self._restore_persisted_state()
 
     def get_status(self) -> DisplayRuntimeStatus:
         self._refresh_process_state()
@@ -144,13 +144,21 @@ class DisplayManager:
 
         return command
 
-    def _load_persisted_state(self) -> None:
+    def _restore_persisted_state(self) -> None:
         persisted = self._state_store.load()
-        # A process cannot be safely reconstructed on restart, so only restore intent.
         self._active_display_id = None
         self._last_selected_display_id = persisted.last_selected_display_id or persisted.active_display_id
         self._last_exit_code = None
-        self._save_state()
+
+        display_to_restore = persisted.active_display_id or persisted.last_selected_display_id
+        if not display_to_restore:
+            self._save_state()
+            return
+
+        try:
+            self.start_display(display_to_restore)
+        except DisplayNotControllableError:
+            self._save_state()
 
     def _save_state(self) -> None:
         self._state_store.save(

@@ -92,5 +92,20 @@ def test_manager_persists_last_selected_display(monkeypatch, tmp_path: Path) -> 
 
     # Assert
     restored = _build_manager(tmp_path).get_status()
-    assert restored.active_display_id is None
+    assert restored.active_display_id == "weather"
+    assert restored.last_selected_display_id == "weather"
+
+
+def test_manager_restores_last_selected_after_clean_shutdown(monkeypatch, tmp_path: Path) -> None:
+    # Arrange
+    monkeypatch.setattr("backend.app.services.manager.subprocess.Popen", _FakeProcess)
+    manager = _build_manager(tmp_path)
+
+    # Act
+    manager.start_display("weather")
+    manager.shutdown()
+
+    # Assert
+    restored = _build_manager(tmp_path).get_status()
+    assert restored.active_display_id == "weather"
     assert restored.last_selected_display_id == "weather"
