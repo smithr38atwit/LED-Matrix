@@ -11,7 +11,7 @@
 				"--filter=':- .gitignore'",
 				"--exclude='.git/objects'",
 				".",
-				"ryan.smith@raspberrypi:/home/ryan.smith/led-matrix"
+				"rpi:/home/ryan.smith/led-matrix"
 			],
 			"problemMatcher": [],
 			"group": {
